@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nooka Raju Guttula - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #f0f0f0;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #4a4a4a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6a6a6a; }
+
+        .section-hidden { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .section-visible { opacity: 1; transform: translateY(0); }
+        .apple-hero-text { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+        .apple-subtitle-text { font-size: clamp(1rem, 2.5vw, 1.5rem); font-weight: 400; color: #a0a0a0; }
+        .glassmorphism { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* Navbar link styles */
+        .nav-link { 
+            transition: color 0.3s ease, background-color 0.3s ease; 
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        .nav-link:hover { color: #fff; background-color: rgba(255, 255, 255, 0.1); }
+        .nav-link.active {
+            color: #fff;
+            background-color: rgba(59, 130, 246, 0.3); /* blue-500 with opacity */
+        }
+
+        .skill-tag { 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            display: inline-block;
+        }
+        .skill-tag:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(100, 180, 255, 0.5); }
+        .project-card, .experience-item { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .project-card:hover, .experience-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
+        
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        .hero-button-pulse { animation: pulse 2s infinite; }
+        .profile-image { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease; border: 2px solid rgba(255, 255, 255, 0.2); }
+        .profile-image:hover { transform: scale(1.03); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
+
+        .logo-link { 
+            display: inline-block; 
+            transition: color 0.3s ease;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9ca3af; /* gray-400 */
+            transition: color 0.3s ease;
+        }
+        .project-link:hover {
+            color: #60a5fa; /* blue-400 */
+        }
+
+        /* Mobile Menu Styles */
+        #mobile-menu-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #mobile-menu-panel {
+             transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism" id="navbar">
+        <div class="container mx-auto px-6 py-3">
+            <nav class="flex items-center justify-between">
+                <a href="#" class="text-2xl font-bold text-white logo-link" id="mainLogo">NRG.</a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-2 text-sm" id="desktop-menu">
+                    <a href="#about" class="nav-link text-gray-300">Summary</a>
+                    <a href="#experience" class="nav-link text-gray-300">Experience</a>
+                    <a href="#skills" class="nav-link text-gray-300">Skills</a>
+                    <a href="#education" class="nav-link text-gray-300">Education</a>
+                    <a href="#projects" class="nav-link text-gray-300">Projects</a>
+                    <a href="#certifications" class="nav-link text-gray-300">Certifications</a>
+                    <a href="#contact" class="nav-link text-gray-300">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Open menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="hidden md:hidden fixed inset-0 bg-black/50 z-40 opacity-0"></div>
+    <div id="mobile-menu-panel" class="hidden md:hidden fixed top-0 right-0 bottom-0 w-64 bg-black/80 backdrop-blur-lg z-50 transform translate-x-full">
+        <div class="flex flex-col items-start p-8 space-y-4">
+            <button id="mobile-menu-close-button" class="self-end text-white focus:outline-none mb-4" aria-label="Close menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <a href="#about" class="nav-link text-gray-200 text-lg">Summary</a>
+            <a href="#experience" class="nav-link text-gray-200 text-lg">Experience</a>
+            <a href="#skills" class="nav-link text-gray-200 text-lg">Skills</a>
+            <a href="#education" class="nav-link text-gray-200 text-lg">Education</a>
+            <a href="#projects" class="nav-link text-gray-200 text-lg">Projects</a>
+            <a href="#certifications" class="nav-link text-gray-200 text-lg">Certifications</a>
+            <a href="#contact" class="nav-link text-gray-200 text-lg">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 md:pt-0 bg-gradient-to-br from-black via-gray-900 to-black">
+            <div class="max-w-4xl">
+                <h1 class="apple-hero-text text-white mb-6 section-hidden">
+                    Nooka Raju Guttula
+                </h1>
+                <p class="apple-subtitle-text mb-10 section-hidden" style="transition-delay: 0.2s;">
+                    Full Stack Developer | Microservices, RESTful APIs, Cloud Solutions
+                </p>
+                <div class="section-hidden hero-button-pulse" style="transition-delay: 0.4s;">
+                    <a href="#experience" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        View My Experience
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-32 container mx-auto px-6 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Summary</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-12 max-w-5xl mx-auto">
+                <div class="w-full md:w-1/3 flex justify-center md:justify-start section-hidden" style="transition-delay: 0.2s;">
+                    <img src="https://placehold.co/400x400/1a1a1a/e0e0e0?text=N+R+Guttula" 
+                         alt="Nooka Raju Guttula" 
+                         class="rounded-xl w-64 h-64 md:w-80 md:h-80 object-cover profile-image shadow-2xl"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x400/333/ccc?text=Image+Not+Found';">
+                </div>
+                <div class="md:w-2/3 text-center md:text-left text-gray-300 text-lg leading-relaxed section-hidden" style="transition-delay: 0.4s;">
+                    <p>
+                        Full Stack Developer with 3 years of experience in designing and optimizing scalable systems. Skilled in microservices, RESTful APIs, cloud solutions, and database management for clients in financial and telecommunication domains. Expertise in performance tuning, security, and collaborating with cross-functional teams.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 md:py-32 bg-gray-900 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Professional Experience</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <div class="max-w-4xl mx-auto space-y-12">
+                <div class="experience-item md:flex items-start glassmorphism p-8 rounded-xl">
+                    <div class="md:w-1/4 mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-blue-400">Software Engineer Intern</h3>
+                        <p class="text-gray-400">Calix Inc.</p>
+                        <p class="text-sm text-gray-500">May 2025 - Present</p>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                        <ul class="list-disc list-inside text-gray-300 leading-relaxed space-y-2">
+                            <li><strong>Service Refactoring:</strong> Migrated legacy services from Vert.x (Java 8) to Spring Boot 3.4.5 using Java 21, enhancing modularity, security, and scalability.</li>
+                            <li><strong>User Sync Architecture:</strong> Architected automated user synchronization between Salesforce and internal systems using Spring Boot microservices and OAuth 2.0, reducing manual overhead by 80%.</li>
+                            <li><strong>Cloud Deployment:</strong> Deployed microservices to GKE and implemented integration tests with Docker-based Testcontainers.</li>
+                            <li><strong>Database Refactoring:</strong> Migrated data access layer from AWS PostgreSQL to GCP DynamoDB, improving query performance.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-item md:flex items-start glassmorphism p-8 rounded-xl">
+                    <div class="md:w-1/4 mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-blue-400">Software Development Engineer (RA)</h3>
+                        <p class="text-gray-400">Georgia State University - NASA</p>
+                        <p class="text-sm text-gray-500">Aug 2024 - May 2025</p>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                         <ul class="list-disc list-inside text-gray-300 leading-relaxed">
+                            <li><strong>Solar Flare Forecasting:</strong> Contributed to a NASA project by developing models for solar flare forecasting using multi-view time series data. Built RESTful services with Flask for data ingestion and model deployment, utilizing AWS S3 and CloudWatch.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-item md:flex items-start glassmorphism p-8 rounded-xl">
+                    <div class="md:w-1/4 mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-blue-400">Software Engineer</h3>
+                        <p class="text-gray-400">Oracle</p>
+                        <p class="text-sm text-gray-500">July 2022 - Aug 2024</p>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                         <ul class="list-disc list-inside text-gray-300 leading-relaxed space-y-2">
+                            <li><strong>Microservices Migration:</strong> Led the redesign of the Oracle Banking Platform by migrating legacy modules to Spring Boot microservices and a Spring Cloud architecture, using Docker, Kubernetes, and CI/CD for zero-downtime deployments.</li>
+                            <li><strong>System Optimization:</strong> Rewrote a legacy config library to use Redis Cache, reducing API calls by 35%. Built a wrapper service for Loans/Bills modules, cutting contract setup time from 30 to 10 minutes.</li>
+                            <li><strong>API Development:</strong> Built REST APIs to automate memo creation/deletion and integrated 100+ banking features using React.js, reducing manual processing by a full day.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="experience-item md:flex items-start glassmorphism p-8 rounded-xl">
+                    <div class="md:w-1/4 mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-blue-400">Associate Software Engineer</h3>
+                        <p class="text-gray-400">Symphony Talent</p>
+                        <p class="text-sm text-gray-500">Dec 2021 - July 2022</p>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                         <ul class="list-disc list-inside text-gray-300 leading-relaxed space-y-2">
+                            <li><strong>Notification Redesign:</strong> Migrated the CRM notification component for Home Depot to Python Django-based microservices, reducing bug resolution time from 5 to 2 days.</li>
+                            <li><strong>Architecture & Deployment:</strong> Designed core modules for User Analytics and SQL transactions to handle 1 million daily operations; deployed microservices via AWS ECS and API Gateway with Docker.</li>
+                            <li><strong>Chatbot POC:</strong> Built a proof-of-concept chatbot using Hugging Face LLMs and a LangChain RAG pipeline, reducing developer training time by 30%.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-item md:flex items-start glassmorphism p-8 rounded-xl">
+                    <div class="md:w-1/4 mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-blue-400">Software Engineer Summer Intern</h3>
+                        <p class="text-gray-400">Oracle</p>
+                        <p class="text-sm text-gray-500">May 2021 - July 2021</p>
+                    </div>
+                    <div class="md:w-3/4 md:pl-8">
+                         <ul class="list-disc list-inside text-gray-300 leading-relaxed space-y-2">
+                            <li><strong>UPI Authentication System:</strong> Developed user registration, bank account retrieval, validation logic, and OTP verification to improve user onboarding.</li>
+                            <li><strong>VPA Management Platform:</strong> Built Virtual Payment Address (VPA) registration and suggestion features using Dropwizard, ensuring 100% test coverage.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20 md:py-32 container mx-auto px-6 section-hidden">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold mb-4 text-center text-white">Technical Skills</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8" id="skillsContainer">
+                    <div class="glassmorphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-400">Languages & Frameworks</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Java</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Python</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">C++</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">C#</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Go</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">ReactJS</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">JavaScript</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">TypeScript</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">SQL</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Spring Boot</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Django</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">.NET</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Flask</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Node.js</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">FastAPI</span>
+                        </div>
+                    </div>
+                    <div class="glassmorphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-400">Databases & Tools</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Oracle DB</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Mongo DB</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Neo4j</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">DynamoDB</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">REST APIs</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Docker</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Apache Spark</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Linux</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Git/GitHub</span>
+                        </div>
+                    </div>
+                    <div class="glassmorphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-400">Cloud & Infrastructure</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">AWS</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Google Cloud</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Oracle Cloud</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Microservices</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Kubernetes</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">CI/CD</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Agile</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Shell Scripting</span>
+                        </div>
+                    </div>
+                    <div class="glassmorphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-400">Machine Learning</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">TensorFlow</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">PyTorch</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Hugging Face</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Transformers</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">NLP</span>
+                            <span class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">LLMs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="education" class="py-20 md:py-32 bg-gray-900 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Education</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <div class="max-w-2xl mx-auto space-y-8">
+                <div class="glassmorphism p-8 rounded-xl text-center">
+                    <h3 class="text-2xl font-semibold text-blue-400">Georgia State University</h3>
+                    <p class="text-gray-300 text-lg">Master of Science in Computer Science (GPA: 3.87)</p>
+                    <p class="text-gray-400">Atlanta, GA, USA | Expected Dec 2025</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 md:py-32 container mx-auto px-6 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Research Projects</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <p class="text-center text-gray-400 mb-12">Published at International Conferences of Springer & IEEE</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="project-card glassmorphism rounded-xl overflow-hidden flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-blue-400">Blogging Backend Platform</h3>
+                        <p class="text-gray-400 text-sm mb-4">Tech: Java, Spring Boot, Spring Security, Hibernate, MySQL</p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            Developed a secure backend system for user-generated blog content with role-based API access for admins and users. Implemented JWT authentication and authorization to control create, update, and delete operations.
+                        </p>
+                    </div>
+                    <div class="p-6 pt-0 mt-auto flex items-center gap-6">
+                        <a href="#" class="project-link font-medium">
+                            <i class="fas fa-book-open"></i>
+                            <span>View Publication</span>
+                        </a>
+                        <a href="#" class="project-link font-medium">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Repository</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card glassmorphism rounded-xl overflow-hidden flex flex-col">
+                     <div class="p-6 flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-blue-400">Community Detection using Facebook-like Data</h3>
+                        <p class="text-gray-400 text-sm mb-4">Tech: AWS (Glue, S3, Athena), Girvan-Newman Algorithm</p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            Implemented community detection and link prediction on a graph dataset to cluster users and recommend connections. Designed scalable serverless data pipelines with AWS Glue, S3, and Athena for efficient graph data processing.
+                        </p>
+                    </div>
+                    <div class="p-6 pt-0 mt-auto flex items-center gap-6">
+                        <a href="#" class="project-link font-medium">
+                            <i class="fas fa-book-open"></i>
+                            <span>View Publication</span>
+                        </a>
+                        <a href="#" class="project-link font-medium">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Repository</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="py-20 md:py-32 bg-gray-900 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Certifications</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <div class="text-center mb-8">
+                <div class="flex flex-wrap justify-center gap-3">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Oracle Certified Java Associate</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">Oracle Database Certified Associate</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">EPAM Certificate Of Diploma</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="skill-tag bg-gray-700 text-gray-200 px-4 py-2 rounded-full text-sm">AWS Cloud Practitioner</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-32 container mx-auto px-6 section-hidden">
+            <h2 class="text-4xl font-bold mb-4 text-center text-white">Contact</h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto mb-12"></div>
+            <div class="max-w-lg mx-auto text-center">
+                <p class="text-gray-300 text-lg mb-8">
+                    I am open to new opportunities and collaborations. Please feel free to reach out.
+                </p>
+                <div class="space-y-4">
+                    <p class="text-xl text-gray-200">
+                        <a href="mailto:nguttula1@student.gsu.edu" class="hover:text-blue-400 transition duration-300">nguttula1@student.gsu.edu</a>
+                    </p>
+                    <p class="text-xl text-gray-200">
+                        <a href="tel:+14702575605" class="hover:text-blue-400 transition duration-300">(470) 257-5605</a>
+                    </p>
+                    <div class="flex justify-center space-x-6 mt-6">
+                        <a href="https://linkedin.com/in/nookaraju-guttula/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400 transition duration-300" aria-label="LinkedIn">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=your_scholar_id" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400 transition duration-300" aria-label="Google Scholar">
+                            <i class="fas fa-graduation-cap w-8 h-8"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-12 bg-gray-950 text-center">
+        <p class="text-gray-500">&copy; <span id="currentYear"></span> Nooka Raju Guttula. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navbar Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+            const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+            const allNavLinks = document.querySelectorAll('.nav-link');
+
+            const openMenu = () => {
+                mobileMenuOverlay.classList.remove('hidden');
+                mobileMenuPanel.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenuOverlay.classList.remove('opacity-0');
+                    mobileMenuPanel.classList.remove('translate-x-full');
+                }, 10);
+            };
+
+            const closeMenu = () => {
+                mobileMenuOverlay.classList.add('opacity-0');
+                mobileMenuPanel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileMenuOverlay.classList.add('hidden');
+                    mobileMenuPanel.classList.add('hidden');
+                }, 300); // Match transition duration
+            };
+
+            mobileMenuButton.addEventListener('click', openMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMenu);
+            mobileMenuOverlay.addEventListener('click', closeMenu);
+
+            // --- Smooth Scrolling & Close Mobile Menu on Link Click ---
+            allNavLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Smooth scroll
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    // Close mobile menu if open
+                    if (!mobileMenuPanel.classList.contains('translate-x-full')) {
+                        closeMenu();
+                    }
+                });
+            });
+
+            // --- Intersection Observer for Scroll Animations ---
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('section-visible');
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.section-hidden').forEach(section => {
+                animationObserver.observe(section);
+            });
+            //Dev right - Nagasai Kakani
+            // --- Intersection Observer for Active Nav Link Highlighting ---
+            const navObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' }); // Adjust rootMargin to highlight when section is more centered
+
+            document.querySelectorAll('main section').forEach(section => {
+                navObserver.observe(section);
+            });
+
+            // --- Dynamic Year in Footer ---
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // --- Navbar Background Change on Scroll ---
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 50) {
+                    navbar.classList.add('bg-opacity-70', 'shadow-lg');
+                } else {
+                    navbar.classList.remove('bg-opacity-70', 'shadow-lg');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
